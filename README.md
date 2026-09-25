@@ -1,12 +1,11 @@
-# Gillette Shop - интернет - магазин original товаров для бритья (Germany).
+# Gillette Shop - интернет-магазин товаров для бритья(Gillette original Germany).
 
 ## Описание проекта
 
 Pet‑проект интернет‑магазина товаров для бритья (в фокусе - продукция Gillette). Реализуется на Django как витрина с каталогом, фильтрацией и пагинацией, с перспективой расширения до полноценного магазина с корзиной, личным кабинетом и оформлением заказов.
 
 **Цель:** Django‑стек и жизненный цикл веб‑приложения:
-от моделей и ORM до шаблонов,
-маршрутизации и работы с данными.
+от моделей и ORM до шаблонов, маршрутизации и работы с данными.
 Проект спроектирован так, чтобы его можно было поэтапно развивать без переписывания архитектуры.
 
 **Стек:** Python 3+, Django 6.1.1, SQLite (с планом миграции на PostgreSQL), Bootstrap 5, django-debug-toolbar.
@@ -80,35 +79,38 @@ Pet‑проект интернет‑магазина товаров для б�
 
 Gillette_Shop/
 ├── manage.py
-├── Gillette_Shop/ # настройки и корневые URL проекта
-├── main/ # главная страница и «О нас»
-│ ├── views.py
-│ ├── urls.py
-│ └── templates/
-├── goods/ # каталог и товары
-│ ├── models.py # Categories, Products
-│ ├── views.py # catalog, product
-│ ├── urls.py
-│ ├── admin.py
-│ ├── templatetags/ # tag_categories
-│ └── templates/
-├── static/ # CSS, JS, иконки, favicon
-├── media/ # изображения товаров
-├── fixtures/ # начальные данные (JSON)
-├── requirements.txt # зависимости проекта
-└── .gitignore # игнорируемые файлы для Git
-
-text
+├── Gillette_Shop/                 # настройки и корневые URL проекта
+│   ├── __init__.py
+│   ├── settings.py
+│   ├── urls.py
+│   ├── asgi.py
+│   └── wsgi.py
+├── main/                         # главная страница и «О нас»
+│   ├── views.py
+│   ├── urls.py
+│   └── templates/
+├── goods/                        # каталог и товары
+│   ├── models.py                 # Categories, Products
+│   ├── views.py                  # catalog, product
+│   ├── urls.py
+│   ├── admin.py
+│   ├── templatetags/             # tag_categories
+│   └── templates/
+├── static/                       # CSS, JS, иконки, favicon
+├── media/                        # изображения товаров
+├── fixtures/                     # начальные данные (JSON)
+├── requirements.txt              # зависимости проекта
+└── .gitignore                    # игнорируемые файлы для Git
 
 ---
 
 ## Установка и запуск
 
-1. **Клонирование и окружение**
+1. **Клонирование и подготовка окружения**
 
     ```bash
     # Клонируем репозиторий
-    git clone <git@github.com: "адрес-пользователя" .git>
+    git clone <SSH_АДРЕС_РЕПОЗИТОРИЯ>
     cd Gillette_Shop
 
     # Cоздаем виртуальное окружение
@@ -128,12 +130,23 @@ text
 2. **Установка зависимостей**
 
     ```bash
+    pip install Django
+    pip install django-debug-toolbar
+    pip installPillow
+    pip install whitenoise
+    # В конце после установки всех нужных пакетов создай/обнови файл зависимостей:
     pip install -r requirements.txt
+    # Если разрабатываешь проект и добавляешь новые пакеты, обновляй файл командой:
+    pip freeze > requirements.txt
 
-    (Если разрабатываешь проект и добавляешь новые пакеты, обновляй файл командой:
-    pip freeze > requirements.txt)
+3. **Создание проекта и приложений
 
-3. **Миграции и загрузка данных**
+    ```bash
+    python3 django-admin startproject "название/имя" .
+    # Создаем приложение (если их ещё нет)
+    python3 manage.py startapp "название приложения"
+
+4. **Миграции и загрузка данных**
 Примени миграции и загрузи начальные данные из фикстур:
 
     ```bash
@@ -142,13 +155,13 @@ text
     python3 manage.py loaddata fixtures/goods/cats.json
     python3 manage.py loaddata fixtures/goods/prod.json
 
-4. **Создание суперпользователя**
+5. **Создание суперпользователя**
 Для доступа к админке создай суперпользователя:
 
     ```bash
     python3 manage.py createsuperuser
 
-5. **Запуск сервера**
+6. **Запуск сервера**
     Запусти проект:
 
     ```bash
@@ -156,18 +169,19 @@ text
     Сайт: http://127.0.0.1:8000/
     Админка: http://127.0.0.1:8000/admin/
 
-6. **Примеры маршрутов**
-Маршрут	Назначение
-GET /	Главная страница магазина
-GET /about	Страница «О нас»
-GET /catalog/all/	Каталог всех товаров
-GET /catalog/britvy/	Каталог категории «Бритвы»
-GET /catalog/product/1/	Карточка товара по ID
-GET /catalog/product/stanok-gillette-fusion/	Карточка товара по slug
-GET /catalog/all/?page=2	Вторая страница каталога
-GET /catalog/all/?on_sale=on&order_by=price	Отфильтрованный и отсортированный каталог
+7. **Примеры маршрутов**
+| Маршрут | Назначение |
+| :--- | :--- |
+| `GET /` | Главная страница магазина |
+| `GET /about` | Страница «О нас» |
+| `GET /catalog/all/` | Каталог всех товаров |
+| `GET /catalog/britvy/` | Каталог категории «Бритвы» |
+| `GET /catalog/product/1/` | Карточка товара по ID |
+| `GET /catalog/product/stanok-gillette-fusion/` | Карточка товара по slug |
+| `GET /catalog/all/?page=2` | Вторая страница каталога |
+| `GET /catalog/all/?on_sale=on&order_by=price` | Отфильтрованный и отсортированный каталог |
 
-7. **Полезные команды**
+8. **Полезные команды**
     ```bash
     # Создать и применить миграции
     python3 manage.py makemigrations
@@ -186,26 +200,27 @@ GET /catalog/all/?on_sale=on&order_by=price	Отфильтрованный и о
     # Запустить сервер с отладочной панелью (если включена в settings)
     python3 manage.py runserver
 
-8. **Настройка Git и игнорирование служебных файлов**
-Чтобы репозиторий оставался чистым, в проект добавлен файл .gitignore. В нём указаны файлы и папки, которые не должны попадать в Git:
+9. **Настройка Git и игнорирование служебных файлов**
+    Чтобы репозиторий оставался чистым, в проект добавлен файл .gitignore. В нём указаны файлы и папки, которые не должны попадать в Git:
     venv/ — виртуальное окружение.
     __pycache__/ — скомпилированные Python‑файлы.
     .DS_Store — служебные файлы macOS.
     *.pyc, *.log и т. п.
 
-Пример содержимого .gitignore:
-    gitignore
+   ```text
     venv/
     __pycache__/
     *.pyc
     .DS_Store
+    db.sqlite3
     media/
     !media/.gitkeep
 
-Папку media/ можно игнорировать, если изображения не являются частью исходного кода проекта. Если ты хочешь хранить тестовые картинки в репозитории, оставь в папке media пустой файл .gitkeep, чтобы Git «видел» эту папку.
+    Папку media/ можно игнорировать, если изображения не являются частью исходного кода проекта. Если ты хочешь хранить тестовые картинки в репозитории, оставь в папке media пустой файл .gitkeep, чтобы Git «видел» эту папку.
 
-9. **Примечания**
+10. **Примечания**
     DEBUG=True используется только для локальной разработки.
     Изображения товаров хранятся в папке media/, статика — в static/.
 
-10. Проект находится в активной разработке: To be continued…
+
+11. Проект находится в активной разработке: To be continued…
